@@ -2,13 +2,16 @@ package com.jhan;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.autoconfigure.web.WebMvcProperties;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -50,77 +53,69 @@ public class controller{
     }
 
     @RequestMapping(value={"/profile/{id}","/profile/{id}/"}, method = RequestMethod.POST)
-    public ModelAndView postProfile(@ModelAttribute Profile profile, @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
-
-        ModelAndView mav = new ModelAndView("redirect:/profile/" + id);
-       // ModelAndView mav = new ModelAndView();
-        //String message = "Shop was successfully updated.";
-        /*
-        if(profile != null) {
-            System.out.println(profile.getFirstname());
-            if(profile.getFirstname() != null)
-                profileService.update(profile);
-        }
-        else {
-            Profile profileNew = new Profile();
-            profileNew.setId(String.valueOf(id));
-            if(allRequestParams.containsKey("firstname")) {
-                profileNew.setFirstname(allRequestParams.get("firstaname"));
-            }
-            if(allRequestParams.containsKey("lastname")) {
-                profileNew.setLastname(allRequestParams.get("lastname"));
-            }
-            if(allRequestParams.containsKey("email")) {
-                profileNew.setEmail(allRequestParams.get("email"));
-            }
-            if(allRequestParams.containsKey("address")) {
-                profileNew.setAddress(allRequestParams.get("address"));
-            }
-            if(allRequestParams.containsKey("organization")) {
-                profileNew.setOrganization(allRequestParams.get("organization"));
-            }
-            if(allRequestParams.containsKey("aboutMyself")) {
-                profileNew.setAboutMyself(allRequestParams.get("aboutMyself"));
-            }
-            if(profileService.findById(String.valueOf(id)) != null) {
-                profileService.update(profileNew);
-            }
-            else {
-                profileService.create(profileNew);
-            }
-        }
-        */
+    public ModelAndView postProfile(@ModelAttribute Profile profile, @RequestParam(value="action") String action, @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
+       if(action.equals("delete")) {
+           ModelAndView modelAndView = new ModelAndView("redirect:/redirectdelete");
+           profile = profileService.delete(String.valueOf(id));
+           return modelAndView;
+       }
+        ModelAndView modelAndView = new ModelAndView("redirect:/profile/" + id);
         if(profileService.findById(String.valueOf(id)) != null) {
             profileService.update(profile);
         }
         else {
             profileService.create(profile);
         }
+        return modelAndView;
+    }
 
-        return mav;
+
+    @RequestMapping(value={"/profile/{id}","/profile/{id}/"}, method = RequestMethod.DELETE)
+    public ModelAndView deleteProfile(@PathVariable String id, final RedirectAttributes redirectAttributes) {
+        if(profileService.findById(id) == null ) throw new PageNotFoundException(id);
+        ModelAndView modelAndView = new ModelAndView("redirect:/redirectdelete");
+        Profile profile = profileService.delete(id);
+        //redirectAttributes.addFlashAttribute("message", "profile" + id + "was deleted!");
+        return modelAndView;
     }
 
     @RequestMapping(value="/profile", method = RequestMethod.GET)
     public ModelAndView showEmptyProfile() {
         Profile profile = new Profile();
-        ModelAndView mav = new ModelAndView("/profile");
-        mav.addObject("profile",profile);
-        return mav;
+        ModelAndView modelAndView = new ModelAndView("/profile");
+        modelAndView.addObject("profile",profile);
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/profile", method = RequestMethod.DELETE)
+    public ModelAndView showProfileAfterDelete() {
+        Profile profile = new Profile();
+        ModelAndView modelAndView = new ModelAndView("/profile");
+        modelAndView.addObject("profile",profile);
+        return modelAndView;
     }
     @RequestMapping(value="/profile", method = RequestMethod.POST)
     public ModelAndView createProfile(@ModelAttribute Profile profile, final RedirectAttributes redirectAttributes) {
         if(profile.getId() == null || profile.getId().equals("")) {
-            ModelAndView mav = new ModelAndView("redirect:/profile/");
-            return mav;
+            ModelAndView modelAndView = new ModelAndView("redirect:/profile/");
+            return modelAndView;
         }
-        ModelAndView mav = new ModelAndView("redirect:/profile/" + profile.getId());
+        ModelAndView modelAndView = new ModelAndView("redirect:/profile/" + profile.getId());
         if(profileService.findById(profile.getId()) != null) {
             profileService.update(profile);
         }
         else {
             profileService.create(profile);
         }
-        return mav;
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value="/redirectdelete")
+    public View redirectDelete(final RedirectAttributes redirectAttributes) {
+        RedirectView redirect = new RedirectView("/profile");
+        redirect.setExposeModelAttributes(false);
+        return redirect;
     }
 
     @ExceptionHandler(PageNotFoundException.class)

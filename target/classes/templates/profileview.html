@@ -19,7 +19,10 @@ First Name: <span th:text="${profile.lastname}"></span><br/>
     <p>Address: <input type="text" th:field="*{address}" /></p>
     <p>Organization: <input type="text" th:field="*{organization}" /></p>
     <p>About Myself: <input type="text" th:field="*{aboutMyself}" /></p>
-    <p><input type="submit" value="Submit" /> <input type="delete" value="Delete" /></p>
+    <p>
+        <button type="submit" name="action" value="update">Update</button>
+        <button type="submit" name="action" value="delete">Delete</button>
+    </p>
 </form>
 </body>
 </html>

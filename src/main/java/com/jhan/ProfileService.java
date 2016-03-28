@@ -7,4 +7,5 @@ public interface ProfileService {
     public Profile findById(String id);
     public Profile update(Profile profile);
     public Profile create(Profile profile);
+    public Profile delete(String id);
 }

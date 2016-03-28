@@ -41,4 +41,11 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.save(createProfile);
     }
 
+    @Override
+    @Transactional
+    public Profile delete(String id) {
+        Profile deleteProfile = profileRepository.findOne(id);
+        profileRepository.delete(deleteProfile);
+        return deleteProfile;
+    }
 }
