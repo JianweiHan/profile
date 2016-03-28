@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Group **: Profile</title>
+</head>
+<body>
+First Name: <span th:text="${profile.lastname}"></span><br/>
+<form action="#" data-th-action="@{/action/edit}" data-th-object="${model}" method="post">
+    <button type="submit" name="action" value="save">update</button>
+    <button type="submit" name="action" value="cancel">delete</button>
+</form>
+<h2>Profile</h2>
+<form action="#" th:action="@{/profile/{id}(id=${profile.id})}" th:object="${profile}" method="post">
+    <p>UserID: <span th:text="${profile.id}"></span></p>
+    <p>First Name: <input type="text" th:field="*{firstname}" /></p>
+    <p>Last Name: <input type="text" th:field="*{lastname}" /></p>
+    <p>Email: <input type="text" th:field="*{email}" /></p>
+    <p>Address: <input type="text" th:field="*{address}" /></p>
+    <p>Organization: <input type="text" th:field="*{organization}" /></p>
+    <p>About Myself: <input type="text" th:field="*{aboutMyself}" /></p>
+    <p><input type="submit" value="Submit" /> <input type="delete" value="Delete" /></p>
+</form>
+</body>
+</html>

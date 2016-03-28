@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Group **: Profile</title>
+</head>
+<body>
+<h2>Profile</h2>
+    <p>&lt;pre&gt;</p>
+    <p>UserID: <span th:text="${profile.id}"></span></p>
+    <p>First Name: <span th:text="${profile.firstname}"></span></p>
+    <p>Last Name: <span th:text="${profile.lastname}"></span></p>
+    <p>Email: <span th:text="${profile.email}"></span></p>
+    <p>Address: <span th:text="${profile.address}"></span></p>
+    <p>Organization: <span th:text="${profile.organization}"></span></p>
+    <p>About Myself: <span th:text="${profile.aboutMyself}"></span></p>
+    <p>&lt;/pre&gt;</p>
+</body>
+</html>

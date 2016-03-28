@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Group **: Profile</title>
+</head>
+<body>
+<h2>Profile</h2>
+<form action="#" th:action="@{/profile}" th:object="${profile}" method="post">
+    <p>UserID: <input type="text" th:field="*{id}" /></p>
+    <p>First Name: <input type="text" th:field="*{firstname}" /></p>
+    <p>Last Name: <input type="text" th:field="*{lastname}" /></p>
+    <p>Email: <input type="text" th:field="*{email}" /></p>
+    <p>Address: <input type="text" th:field="*{address}" /></p>
+    <p>Organization: <input type="text" th:field="*{organization}" /></p>
+    <p>About Myself: <input type="text" th:field="*{aboutMyself}" /></p>
+    <p><input type="submit" value="Create" /></p>
+</form>
+</body>
+</html>
