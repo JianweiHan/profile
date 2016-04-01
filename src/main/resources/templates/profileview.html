@@ -1,8 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"></meta>
     <title>Group **: Profile</title>
+
+    <script th:inline="javascript">
+        function redirect()
+        {
+            var url = "www.yahoo.com";
+            $(window).location(url);
+        }
+    </script>
+
 </head>
 <body>
 First Name: <span th:text="${profile.lastname}"></span><br/>
@@ -24,5 +33,7 @@ First Name: <span th:text="${profile.lastname}"></span><br/>
         <button type="submit" name="action" value="delete">Delete</button>
     </p>
 </form>
+<button name="redirect" onClick="redirect()"/>
 </body>
+
 </html>

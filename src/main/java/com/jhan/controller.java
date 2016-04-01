@@ -73,7 +73,8 @@ public class controller{
     @RequestMapping(value={"/profile/{id}","/profile/{id}/"}, method = RequestMethod.DELETE)
     public ModelAndView deleteProfile(@PathVariable String id, final RedirectAttributes redirectAttributes) {
         if(profileService.findById(id) == null ) throw new PageNotFoundException(id);
-        ModelAndView modelAndView = new ModelAndView("redirect:/redirectdelete");
+        //ModelAndView modelAndView = new ModelAndView("redirect:/redirectdelete");
+        ModelAndView modelAndView = new ModelAndView("profile");
         Profile profile = profileService.delete(id);
         //redirectAttributes.addFlashAttribute("message", "profile" + id + "was deleted!");
         return modelAndView;
@@ -82,7 +83,7 @@ public class controller{
     @RequestMapping(value="/profile", method = RequestMethod.GET)
     public ModelAndView showEmptyProfile() {
         Profile profile = new Profile();
-        ModelAndView modelAndView = new ModelAndView("/profile");
+        ModelAndView modelAndView = new ModelAndView("profile");
         modelAndView.addObject("profile",profile);
         return modelAndView;
     }
@@ -90,7 +91,7 @@ public class controller{
     @RequestMapping(value="/profile", method = RequestMethod.DELETE)
     public ModelAndView showProfileAfterDelete() {
         Profile profile = new Profile();
-        ModelAndView modelAndView = new ModelAndView("/profile");
+        ModelAndView modelAndView = new ModelAndView("profile");
         modelAndView.addObject("profile",profile);
         return modelAndView;
     }
@@ -113,7 +114,7 @@ public class controller{
 
     @RequestMapping(value="/redirectdelete")
     public View redirectDelete(final RedirectAttributes redirectAttributes) {
-        RedirectView redirect = new RedirectView("/profile");
+        RedirectView redirect = new RedirectView("profile");
         redirect.setExposeModelAttributes(false);
         return redirect;
     }
