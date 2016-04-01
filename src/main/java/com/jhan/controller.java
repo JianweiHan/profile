@@ -77,6 +77,8 @@ public class controller{
         ModelAndView modelAndView = new ModelAndView("profile");
         Profile profile = profileService.delete(id);
         //redirectAttributes.addFlashAttribute("message", "profile" + id + "was deleted!");
+        Profile profileNew = new Profile();
+        modelAndView.addObject("profile",profileNew);
         return modelAndView;
     }
 
