@@ -2,22 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>Group **: Profile</title>
+    <title>Group 12: Profile</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-
-        $(document).ready(function(){
-            $("p").click(function(){
-                $(this).hide();
-            });
-        });
-
-        function redirect()
+        function deleteAndredirect()
         {
             var url = "/profile";
-            console.log(3434);
+            console.log("try javascript");
             console.log(document.getElementById("myForm").elements.length);
             console.log(document.getElementById("lastName").value);
             console.log(document.getElementById("userId").textContent);
@@ -37,11 +30,6 @@
 
 </head>
 <body>
-First Name: <span th:text="${profile.lastname}"></span><br/>
-<form action="#" data-th-action="@{/action/edit}" data-th-object="${model}" method="post">
-    <button type="submit" name="action" value="save">update</button>
-    <button type="submit" name="action" value="cancel">delete</button>
-</form>
 <h2>Profile</h2>
 <form id="myForm" action="#" th:action="@{/profile/{id}(id=${profile.id})}" th:object="${profile}" method="post">
     <p>UserID: <span id="userId" th:text="${profile.id}"></span></p>
@@ -51,24 +39,10 @@ First Name: <span th:text="${profile.lastname}"></span><br/>
     <p>Address: <input id="address" type="text" th:field="*{address}" /></p>
     <p>Organization: <input id="organization" type="text" th:field="*{organization}" /></p>
     <p>About Myself: <input id="aboutMyself" type="text" th:field="*{aboutMyself}" /></p>
-    <p>
-        <button type="submit" name="action" value="update">Update</button>
-        <button type="submit" name="action" value="delete">Delete</button>
-    </p>
+    <p><button type="submit" name="action" value="update">Update</button></p>
 </form>
-<button name="redirect" onClick="redirect()">Redirect</button>
+<p><button name="redirect" onClick="deleteAndredirect()">Delete</button></p>
 
-<form id="myForm2" action="#" th:action="@{/profile/{id}(id=${profile.id})}" th:object="${profile}" method="delete">
-    <p>UserID: <span id="userId2" th:text="${profile.id}"></span></p>
-    <p>
-        <button type="submit" name="action" value="update">Update</button>
-        <button type="submit" name="action" value="delete">Delete</button>
-    </p>
-</form>
-
-<p>If you click on me, I will disappear.</p>
-<p>Click me away!</p>
-<p>Click me too!</p>
 </body>
 
 </html>

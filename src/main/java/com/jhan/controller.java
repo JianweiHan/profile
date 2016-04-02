@@ -31,13 +31,6 @@ public class controller{
         return "SJSU 275 Lab 2";
     }
 
-    @RequestMapping("/person")
-    public String person(Model model) {
-        model.addAttribute("person", profileService.findById("1"));
-        //shopService = new ShopServiceImpl();
-        //model.addAttribute("shop", shopService.findById(1));
-        return "personview";
-    }
 
     @RequestMapping(value = {"/profile/{id}", "/profile/{id}/"}, method = RequestMethod.GET)
     public String showProfile(@PathVariable String id, @RequestParam Map<String,String> allRequestParams, Model model){
@@ -53,14 +46,9 @@ public class controller{
     }
 
     @RequestMapping(value={"/profile/{id}","/profile/{id}/"}, method = RequestMethod.POST)
-    public ModelAndView postProfile(@ModelAttribute Profile profile, @RequestParam(value="action") String action, @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
-       if(action.equals("delete")) {
-           ModelAndView modelAndView = new ModelAndView("redirect:/redirectdelete");
-           profile = profileService.delete(String.valueOf(id));
-           return modelAndView;
-       }
+    public ModelAndView postProfile(@ModelAttribute Profile profile, @PathVariable String id, final RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView("redirect:/profile/" + id);
-        if(profileService.findById(String.valueOf(id)) != null) {
+        if(profileService.findById(id) != null) {
             profileService.update(profile);
         }
         else {
@@ -97,6 +85,7 @@ public class controller{
         modelAndView.addObject("profile",profile);
         return modelAndView;
     }
+    /*
     @RequestMapping(value="/profile", method = RequestMethod.POST)
     public ModelAndView createProfile(@ModelAttribute Profile profile, final RedirectAttributes redirectAttributes) {
         if(profile.getId() == null || profile.getId().equals("")) {
@@ -112,14 +101,8 @@ public class controller{
         }
         return modelAndView;
     }
+    */
 
-
-    @RequestMapping(value="/redirectdelete")
-    public View redirectDelete(final RedirectAttributes redirectAttributes) {
-        RedirectView redirect = new RedirectView("profile");
-        redirect.setExposeModelAttributes(false);
-        return redirect;
-    }
 
     @ExceptionHandler(PageNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

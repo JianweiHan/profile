@@ -2,19 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>Group **: Profile</title>
+    <title>Group 12: Profile</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        function create()
+        {
+            /*
+            var url = "/profile/" + document.getElementById("userId").value +
+                    "?firstname=" + document.getElementById("firstName").value +
+                    "&lastname=" + document.getElementById("lastName").value +
+                    "&email="+ document.getElementById("email").value +
+                    "&address="+ document.getElementById("address").value +
+                    "&organization="+ document.getElementById("organization").value +
+                    "&aboutMyself="+ document.getElementById("aboutMyself").value;
+            if(document.getElementById("userId").value != null || document.getElementById("userId").value != "") {
+                window.location.replace(url);
+            }
+            console.log("try javascript");
+            console.log(document.getElementById("myForm").elements.length);
+            console.log(document.getElementById("lastName").value);
+            console.log(document.getElementById("userId").textContent);
+            */
+            $.ajax({
+                url: "/profile/" + document.getElementById("userId").value +
+                "?firstname=" + document.getElementById("firstName").value +
+                "&lastname=" + document.getElementById("lastName").value +
+                "&email="+ document.getElementById("email").value +
+                "&address="+ document.getElementById("address").value +
+                "&organization="+ document.getElementById("organization").value +
+                "&aboutMyself="+ document.getElementById("aboutMyself").value,
+                type: 'POST',
+                success: function(result) {
+                    window.location.replace("/profile/" + document.getElementById("userId").value);
+                }
+            });
+
+        }
+        /*]]>*/
+    </script>
+
 </head>
 <body>
 <h2>Profile</h2>
 <form action="#" th:action="@{/profile}" th:object="${profile}" method="post">
-    <p>UserID: <input type="text" th:field="*{id}" /></p>
-    <p>First Name: <input type="text" th:field="*{firstname}" /></p>
-    <p>Last Name: <input type="text" th:field="*{lastname}" /></p>
-    <p>Email: <input type="text" th:field="*{email}" /></p>
-    <p>Address: <input type="text" th:field="*{address}" /></p>
-    <p>Organization: <input type="text" th:field="*{organization}" /></p>
-    <p>About Myself: <input type="text" th:field="*{aboutMyself}" /></p>
-    <p><input type="submit" value="Create" /></p>
+    <p>UserID: <input id="userId" type="text" th:field="*{id}" /></p>
+    <p>First Name: <input id="firstName" type="text" th:field="*{firstname}" /></p>
+    <p>Last Name: <input id="lastName" type="text" th:field="*{lastname}" /></p>
+    <p>Email: <input id="email" type="text" th:field="*{email}" /></p>
+    <p>Address: <input id="address" type="text" th:field="*{address}" /></p>
+    <p>Organization: <input id="organization" type="text" th:field="*{organization}" /></p>
+    <p>About Myself: <input id="aboutMyself" type="text" th:field="*{aboutMyself}" /></p>
+    <!--p><input type="submit" value="Create" /></p-->
 </form>
+<p><button name="create" onClick="create()">Create</button></p>
 </body>
 </html>
